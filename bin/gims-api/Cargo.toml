@@ -1,0 +1,28 @@
+[package]
+authors = ["Joe McCain III <jo3mccain@icloud.com>",]
+categories = [ ]
+description = "A generalized inventory management system"
+edition = "2021"
+homepage = "https://github.com/FL03/gims/wiki"
+keywords = [ ]
+license = "Apache-2.0"
+name = "gims-api"
+publish = false
+readme = "README.md"
+repository = "https://github.com/FL03/gims.git"
+version = "0.0.0"
+
+[[bin]]
+name = "gims-api"
+path = "src/main.rs"
+
+[build-dependencies]
+
+[dependencies]
+
+[dependencies.gims]
+features = ["full"]
+path = "../../gims"
+version = "0.0.0"
+
+[dev-dependencies]

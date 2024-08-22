@@ -7,7 +7,7 @@ edition.workspace = true
 homepage.workspace = true
 keywords.workspace = true
 license.workspace = true
-name = "gims"
+name = "gims-core"
 readme.workspace = true
 repository.workspace = true
 version.workspace = true
@@ -25,27 +25,24 @@ full = [
 
 # [FF] Dependencies
 alloc = [
-    "gims-core/alloc",
     "num/alloc",
     "serde?/alloc",
 ]
 
 rand = [
-    "gims-core/rand",
     "num/rand"
 ]
 
 serde = [
-    "dep:serde",
-    "gims-core/serde"
+    "dep:serde"
 ]
 
 # ********* [FF] Environments *********
 std = [
     "alloc",
-    "gims-core/std",
     "num/std",
     "serde?/std",
+    "strum/std",
 ]
 
 wasm = []
@@ -61,11 +58,7 @@ test = true
 [build-dependencies]
 
 [dev-dependencies]
-lazy_static.workspace = true
-
-[dependencies.gims-core]
-path = "../core"
-version = "0.0.0"
+lazy_static = "1"
 
 [dependencies.num]
 default-features = false
@@ -76,6 +69,11 @@ default-features = false
 features = ["derive"]
 optional = true
 version = "1"
+
+[dependencies.strum]
+default-features = false
+features = ["derive"]
+version = "0.26"
 
 [package.metadata.docs.rs]
 all-features = true

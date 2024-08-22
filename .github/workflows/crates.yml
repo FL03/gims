@@ -1,8 +1,8 @@
 name: crates
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
+  group: ${{ github.workflow }}-${{ github.ref }}
 
 env:
   BASENAME: ${{ github.event.repository.name }}
@@ -16,9 +16,23 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish:
-    name: Publish (${{ github.event.repository.name }})
+  base:
+    env:
+      CRATE_NAME: ${{ github.event.repository.name }}-${{ matrix.features }}
+    name: Publish Core Crates
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        features: [ core ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: publish (${{ env.CRATE_NAME }})
+        run: cargo publish --all-features -v -p ${{ env.CRATE_NAME }} --token ${{ secrets.CARGO_REGISTRY_TOKEN }}
+  sdk:
+    name: Publish SDK (${{ github.event.repository.name }})
+    needs: base
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: cargo publish --all-features -v -p ${{ github.event.repository.name }} --token ${{ secrets.CARGO_REGISTRY_TOKEN }}
+      - run: cargo publish --all-features -v -p ${{ env.BASENAME }} --token ${{ secrets.CARGO_REGISTRY_TOKEN }}
